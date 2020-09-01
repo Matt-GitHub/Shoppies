@@ -1,0 +1,2 @@
+# Shoppies
+Shopify Intern Project
