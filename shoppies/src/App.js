@@ -6,7 +6,7 @@ import './App.css';
 function ShowMovies({ movies }) {
   const query = useQuery(movies, () => {
     return axios
-      .get(`http://www.omdbapi.com/?s=${movies}&apikey=c154daad`)
+      .get(`http://www.omdbapi.com/?s=${movies}&apikey=c154daad&type=movie`)
       .then(res => res.data);
   });
   console.log(query?.data?.Search);
@@ -15,8 +15,13 @@ function ShowMovies({ movies }) {
     : query.isError
     ? 'error fetching data'
     : query?.data?.Search
-    ? query?.data?.Search.map(data => {
-        return <h1>{data.Title}</h1>;
+    ? query?.data?.Search.map((data, key) => {
+        return (
+          <div key={key}>
+            <h1>{data.Title}</h1>
+            <img src={data.Poster} alt={data.Title} />
+          </div>
+        );
       })
     : null;
 }
