@@ -1,0 +1,15 @@
+.queryContainer {
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.queryMovie {
+  width: 20%;
+  text-align: center;
+  align-items: center;
+  margin: 0% auto;
+  margin-bottom: 3%;
+}
