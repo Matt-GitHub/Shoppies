@@ -1,9 +1,11 @@
 .queryContainer {
   display: flex;
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
   flex-wrap: wrap;
   justify-content: center;
+  align-content: center;
+  align-items: center;
 }
 
 .queryMovie {

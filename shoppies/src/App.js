@@ -6,7 +6,8 @@ import NoMatch from './components/NoMatch';
 import MovieList from './components/MovieList';
 import './App.css';
 import NominationsList from './components/NominationsList';
-function ShowMovies({ movies, setNominations, nominations, list }) {
+import useLocalStorage from './Hooks/UseLocalStorage';
+function ShowMovies({ movies, setNominations, nominations, test, setTest }) {
   const query = useQuery(movies, () => {
     return axios
       .get(`http://www.omdbapi.com/?s=${movies}&apikey=c154daad&type=movie`)
@@ -21,6 +22,8 @@ function ShowMovies({ movies, setNominations, nominations, list }) {
       setNominations={setNominations}
       nominations={nominations}
       query={query}
+      setTest={setTest}
+      test={test}
     />
   ) : (
     <NoMatch />
@@ -29,22 +32,34 @@ function ShowMovies({ movies, setNominations, nominations, list }) {
 function App() {
   const [movies, setMovies] = useState([]);
   const [nominations, setNominations] = useState([]);
-
-  console.log('nominations on app', nominations);
+  const [search, setSearch] = useLocalStorage('', 'query');
+  const [test, setTest] = useLocalStorage([], 'test');
+  console.log('app set test', setTest);
   return (
     <>
       <h1>The Shoppies: Movie awards for entrepreneurs</h1>
-      <NominationsList
-        nominations={nominations}
-        setNominations={setNominations}
+      <input
+        value={search}
+        placeholder="search"
+        onChange={e => setSearch(e.target.value)}
       />
-      <input value={movies} onChange={e => setMovies(e.target.value)} />
-      <ShowMovies
-        movies={movies}
-        setNominations={setNominations}
-        nominations={nominations}
-      />
-
+      <div className="homeContainer">
+        <div className="showMovies">
+          <ShowMovies
+            movies={search}
+            setNominations={setNominations}
+            nominations={nominations}
+            setTest={setTest}
+            test={test}
+          />
+        </div>
+        <div className="nominationMovies">
+          <NominationsList
+            nominations={nominations}
+            setNominations={setNominations}
+          />
+        </div>
+      </div>
       <ReactQueryDevtools />
     </>
   );

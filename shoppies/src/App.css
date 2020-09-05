@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+
+h1 {
+  text-align: center;
+}
+
+input {
+  display: flex;
+  margin: 0 auto;
+  width: 100px;
+}
+
+.homeContainer {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  align-items: baseline;
+}
+
+.showMovies {
+  width: 80%;
+}
+
+.nominationMovies {
+  width: 20%;
+}
