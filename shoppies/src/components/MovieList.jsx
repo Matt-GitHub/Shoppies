@@ -3,7 +3,6 @@ import './MovieList.css';
 import useLocalStorage from '../Hooks/UseLocalStorage';
 const MovieList = ({ nominations, setNominations, query, setTest }) => {
   const [nom, setNom] = useLocalStorage([], 'nominations');
-  console.log('setTest', setTest);
   return (
     <div className="queryContainer">
       {query?.data?.Search.map((data, key) => {
