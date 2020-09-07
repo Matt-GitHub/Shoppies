@@ -39,12 +39,11 @@
 
 h1 {
   text-align: center;
+  width: 80%;
 }
 
 input {
-  display: flex;
-  margin: 0 auto;
-  width: 100px;
+  margin-left: 1%;
 }
 
 .homeContainer {
@@ -60,4 +59,14 @@ input {
 
 .nominationMovies {
   width: 20%;
+}
+
+.searchFunction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+label {
+  width: 80%;
 }

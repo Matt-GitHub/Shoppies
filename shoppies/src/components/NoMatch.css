@@ -1,0 +1,14 @@
+.intro {
+  text-align: start;
+  font-size: 2rem;
+}
+
+.intoParagraph {
+  font-size: 1.65rem;
+  width: 70%;
+}
+
+li {
+  font-size: 1.2rem;
+  width: 70%;
+}

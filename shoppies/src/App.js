@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { ReactQueryDevtools } from 'react-query-devtools';
 import { useQuery } from 'react-query';
@@ -7,56 +7,63 @@ import MovieList from './components/MovieList';
 import './App.css';
 import NominationsList from './components/NominationsList';
 import useLocalStorage from './Hooks/UseLocalStorage';
-function ShowMovies({ movies, setNominations, nominations, test, setTest }) {
-  const query = useQuery(movies, () => {
-    return axios
-      .get(`http://www.omdbapi.com/?s=${movies}&apikey=c154daad&type=movie`)
-      .then(res => res.data);
-  });
-  return query.isLoading ? (
-    '...loading'
-  ) : query.isError ? (
-    'error fetching data'
+function ShowMovies({ movies, nomination, setNomination }) {
+  const query = useQuery(
+    ['movie', movies],
+    () => {
+      return axios
+        .get(`http://www.omdbapi.com/?s=${movies}&apikey=c154daad&type=movie`)
+        .then(res => res.data);
+    },
+    {
+      enabled: movies
+    }
+  );
+  return query.isLoading ? null : query.isError ? (
+    'Hey team, something went terribly wrong and my application cannot fetch the data, please contact me'
   ) : query?.data?.Search ? (
     <MovieList
-      setNominations={setNominations}
-      nominations={nominations}
       query={query}
-      setTest={setTest}
-      test={test}
+      setNomination={setNomination}
+      nomination={nomination}
     />
-  ) : (
+  ) : movies === '' ? (
     <NoMatch />
+  ) : (
+    'Please update your search to find the movie you are looking for'
   );
 }
 function App() {
-  const [movies, setMovies] = useState([]);
-  const [nominations, setNominations] = useState([]);
   const [search, setSearch] = useLocalStorage('', 'query');
-  const [test, setTest] = useLocalStorage([], 'test');
-  console.log('app set test', setTest);
+  const [nomination, setNomination] = useLocalStorage([], 'nominations');
+
   return (
     <>
       <h1>The Shoppies: Movie awards for entrepreneurs</h1>
-      <input
-        value={search}
-        placeholder="search"
-        onChange={e => setSearch(e.target.value)}
-      />
+      {console.log('search', search)}
+
+      <label className="searchFunction">
+        <div>Search</div>
+        <input
+          type="search"
+          value={search}
+          placeholder="Search"
+          onChange={e => setSearch(e.target.value)}
+        />
+      </label>
+
       <div className="homeContainer">
         <div className="showMovies">
           <ShowMovies
             movies={search}
-            setNominations={setNominations}
-            nominations={nominations}
-            setTest={setTest}
-            test={test}
+            setNomination={setNomination}
+            nomination={nomination}
           />
         </div>
         <div className="nominationMovies">
           <NominationsList
-            nominations={nominations}
-            setNominations={setNominations}
+            nomination={nomination}
+            setNomination={setNomination}
           />
         </div>
       </div>

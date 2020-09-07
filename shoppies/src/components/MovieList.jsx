@@ -1,15 +1,15 @@
 import React from 'react';
 import './MovieList.css';
-import useLocalStorage from '../Hooks/UseLocalStorage';
-const MovieList = ({ nominations, setNominations, query, setTest }) => {
-  const [nom, setNom] = useLocalStorage([], 'nominations');
+const MovieList = ({ query, nomination, setNomination }) => {
   return (
     <div className="queryContainer">
       {query?.data?.Search.map((data, key) => {
-        // console.log('data', data.id);
-        let nominationTitles = nom.map(data => data.id);
+        let nominationTitles = nomination.map(data => data.id);
         let disabled = () => {
-          if (nominationTitles.includes(data.imdbID) || nom.length >= 5) {
+          if (
+            nominationTitles.includes(data.imdbID) ||
+            nomination.length >= 5
+          ) {
             return true;
           }
           return false;
@@ -18,8 +18,8 @@ const MovieList = ({ nominations, setNominations, query, setTest }) => {
           <div className="queryMovie" key={key}>
             <p>{data.Title}</p>
             <img
-              height="200px"
-              width="142px"
+              height="250px"
+              width="192px"
               src={
                 data.Poster === 'N/A'
                   ? 'https://avatars1.githubusercontent.com/u/8085?s=200&v=4'
@@ -30,6 +30,7 @@ const MovieList = ({ nominations, setNominations, query, setTest }) => {
             <p>Release Date: {data.Year}</p>
             <div>
               <button
+                className="nomButton"
                 type="button"
                 disabled={disabled()}
                 onClick={() => {
@@ -38,16 +39,16 @@ const MovieList = ({ nominations, setNominations, query, setTest }) => {
                     title: data.Title,
                     poster: data.Poster
                   };
-                  if (nom.length === 0) {
-                    setNominations([entry]);
-                    setNom([entry]);
-                  } else if (nom.length < 5) {
-                    setNominations([...nominations, entry]);
-                    setNom([...nom, entry]);
+                  if (nomination.length === 0) {
+                    setNomination([entry]);
+                  } else if (nomination.length < 5) {
+                    setNomination([...nomination, entry]);
                   }
                 }}
               >
-                Nominate
+                {nominationTitles.includes(data.imdbID)
+                  ? 'NOMINATED'
+                  : 'Nominate'}
               </button>
             </div>
           </div>

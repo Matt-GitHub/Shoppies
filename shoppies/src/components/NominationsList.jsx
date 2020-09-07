@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './NominationsList.css';
-import useLocalStorage from '../Hooks/UseLocalStorage';
-const NominationsList = ({ nominations, setNominations }) => {
-  let nominationsLeft = 5 - nominations.length;
+import DeleteIcon from './icons8-delete-48.png';
+const NominationsList = ({ nomination, setNomination }) => {
+  let nominationsLeft = 5 - nomination.length;
   return (
     <div className="nominationsContainer">
       {nominationsLeft === 0 ? (
         <h2>Submit Nominations</h2>
+      ) : nominationsLeft === 1 ? (
+        <h2>{nominationsLeft} Nomination Left</h2>
       ) : (
         <h2>{nominationsLeft} Nominations Left</h2>
       )}
-      {nominations.length === 0
+      {nomination.length === 0
         ? null
-        : nominations.map((data, key) => {
+        : nomination.map((data, key) => {
             return (
               <div className="nominationMovie" key={key}>
                 <div className="nominationBox">
@@ -28,15 +30,16 @@ const NominationsList = ({ nominations, setNominations }) => {
                   />
                   <p>{data.title}</p>
                   <button
+                    className="removeButton"
                     type="button"
                     onClick={() => {
-                      let removeMovie = nominations.filter(
+                      let removeMovie = nomination.filter(
                         movie => movie.id !== data.id
                       );
-                      setNominations(removeMovie);
+                      setNomination(removeMovie);
                     }}
                   >
-                    x
+                    <img src={DeleteIcon} alt="Delete Icon" height="20px" />
                   </button>
                 </div>
               </div>
